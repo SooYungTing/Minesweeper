@@ -45,11 +45,10 @@ function reveal(x, y) {
             for (var i = 0; i < rows; i++)
                 for (var j = 0; j < cols; j++) {
                     if (minefield[i][j] < 0 && board[i][j].className == "default") {
-                        board[i][j].className = "reveal";
+                        board[i][j].className = "hidden";
                         board[i][j].innerText = "💣";
                     }
                     else if (minefield[i][j] >= 0 && board[i][j].className == "flagged") {
-                        board[i][j].className = "explode";
                         board[i][j].innerText = "❌";
                     }
                 }
