@@ -53,6 +53,19 @@ body {
     align-items: center;
 }
 
+#board .hidden {
+    width: 48px;
+    height: 48px;
+    border: 1px solid whitesmoke;
+    background-color:plum;
+
+    /* text */
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .tile-clicked {
     background-color: darkgreen;
 }
