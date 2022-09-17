@@ -15,10 +15,30 @@ body {
     flex-wrap: wrap;
 }
 
-#board div {
+#board .default {
     width: 48px;
     height: 48px;
     border: 1px solid whitesmoke;
+
+}
+
+#board .reveal {
+    width: 48px;
+    height: 48px;
+    border: 1px solid whitesmoke;
+    background-color: lightskyblue;
+    /* text */
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#board .explode {
+    width: 48px;
+    height: 48px;
+    border: 1px solid whitesmoke;
+    background-color: orange;
 
     /* text */
     font-size: 30px;
