@@ -12,7 +12,7 @@ function drawBoard(container: HTMLElement, width: number, height: number): void 
             let tile = document.createElement("div");
             tile.className = "default"
             tile.onclick = function() { if (game) if (reveal(c, r)) game=false; };
-            tile.oncontextmenu = function() { if (game) if (mark(c, r)) { alert("You win!"); game = false; } return false; };
+            tile.oncontextmenu = function() { if (game) if (mark(c, r)) game=false; return false; };
             container.append(tile);
             row.push(tile);
         }
@@ -78,5 +78,22 @@ function mark(x: number, y: number): boolean {
         }
     }
     updateCount();
-    return correct==mines && incorrect==0;
+    if (correct==mines && incorrect==0) {
+        for (let i=0; i<rows; i++) for (let j=0; j<cols; j++) {
+            switch (board[i][j].className) {
+                case "default": {
+                    board[i][j].className = "reveal";
+                    board[i][j].innerText = minefield[i][j].toString();
+                    break;
+                }
+                case "flagged": {
+                    board[i][j].className = "lucky";
+                    board[i][j].innerText = "🍀";
+                    break;
+                }
+            }
+        }
+        return true;
+    }
+    return false;;
 }

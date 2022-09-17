@@ -14,10 +14,8 @@ function drawBoard(container, width, height) {
                 if (reveal(c, r))
                     game = false; };
             tile.oncontextmenu = function () { if (game)
-                if (mark(c, r)) {
-                    alert("You win!");
-                    game = false;
-                } return false; };
+                if (mark(c, r))
+                    game = false; return false; };
             container.append(tile);
             row.push(tile);
         };
@@ -94,5 +92,24 @@ function mark(x, y) {
         }
     }
     updateCount();
-    return correct == mines && incorrect == 0;
+    if (correct == mines && incorrect == 0) {
+        for (var i = 0; i < rows; i++)
+            for (var j = 0; j < cols; j++) {
+                switch (board[i][j].className) {
+                    case "default": {
+                        board[i][j].className = "reveal";
+                        board[i][j].innerText = minefield[i][j].toString();
+                        break;
+                    }
+                    case "flagged": {
+                        board[i][j].className = "hidden";
+                        board[i][j].innerText = "🍀";
+                        break;
+                    }
+                }
+            }
+        return true;
+    }
+    return false;
+    ;
 }
