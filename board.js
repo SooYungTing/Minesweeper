@@ -1,6 +1,8 @@
+var count = 0;
 var board = [];
 // Front-end function
-function drawBoard(container, width, height) {
+function drawBoard(container, width, height, mines) {
+    updateCount(mines);
     var _loop_1 = function (r) {
         var row = [];
         var _loop_2 = function (c) {
@@ -20,10 +22,14 @@ function drawBoard(container, width, height) {
         _loop_1(r);
     }
 }
+function updateCount(cnt) {
+    count = cnt;
+    document.getElementById("mines-count").innerText = count.toString();
+}
 // Pre: (x,y) is a set of valid coordinates;
 // Post: returns whether revealing the cell lead to loss of game;
 function reveal(x, y) {
-    if (board[y][x].className == "reveal")
+    if (board[y][x].className != "default")
         return false;
     switch (minefield[y][x]) {
         case -1: {
@@ -50,7 +56,18 @@ function reveal(x, y) {
 }
 // Pre: (x,y) is a set of valid coordinates
 function mark(x, y) {
-    if (board[y][x].className == "reveal")
-        return;
-    board[y][x].innerText = "🚩";
+    switch (board[y][x].className) {
+        case "default": {
+            board[y][x].className = "flagged";
+            board[y][x].innerText = "🚩";
+            updateCount(count - 1);
+            break;
+        }
+        case "flagged": {
+            board[y][x].className = "default";
+            board[y][x].innerText = "";
+            updateCount(count + 1);
+            break;
+        }
+    }
 }

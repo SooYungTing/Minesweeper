@@ -15,7 +15,7 @@ body {
     flex-wrap: wrap;
 }
 
-#board .default {
+#board .default, .flagged {
     width: 48px;
     height: 48px;
     border: 1px solid whitesmoke;
