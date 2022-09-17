@@ -1,16 +1,18 @@
-let count: number = 0;
+let game: boolean = true;
+let correct: number = 0;
+let incorrect: number = 0;
 let board: HTMLElement[][] = [];
 
 // Front-end function
-function drawBoard(container: HTMLElement, width: number, height: number, mines: number): void {
-    updateCount(mines);
+function drawBoard(container: HTMLElement, width: number, height: number): void {
+    updateCount();
     for (let r = 0; r < height; r++) {
         let row: HTMLElement[] = [];
         for (let c = 0; c < width; c++) {
             let tile = document.createElement("div");
             tile.className = "default"
-            tile.onclick = function() { reveal(c, r); };
-            tile.oncontextmenu = function() { mark(c, r); return false; };
+            tile.onclick = function() { if (game) if (reveal(c, r)) game=false; };
+            tile.oncontextmenu = function() { if (game) if (mark(c, r)) { alert("You win!"); game = false; } return false; };
             container.append(tile);
             row.push(tile);
         }
@@ -18,9 +20,8 @@ function drawBoard(container: HTMLElement, width: number, height: number, mines:
     }
 }
 
-function updateCount(cnt: number) {
-    count = cnt;
-    document.getElementById("mines-count")!.innerText = count.toString();
+function updateCount() {
+    document.getElementById("mines-count")!.innerText = (mines-correct-incorrect).toString();
 }
 
 // Pre: (x,y) is a set of valid coordinates;
@@ -32,6 +33,7 @@ function reveal(x: number, y: number): boolean {
         case -1: {
             board[y][x].className = "explode";
             board[y][x].innerText = "💣";
+
             return true;
         }
         case 0: {
@@ -53,19 +55,22 @@ function reveal(x: number, y: number): boolean {
 }
 
 // Pre: (x,y) is a set of valid coordinates
-function mark(x: number, y: number): void {
+// Post: returns whether revealing the cell lead to winning of game;
+function mark(x: number, y: number): boolean {
     switch (board[y][x].className) {
         case "default": {
             board[y][x].className = "flagged";
             board[y][x].innerText = "🚩";
-            updateCount(count-1);
+            if (minefield[y][x]<0) correct++; else incorrect++;
             break;
         }
         case "flagged": {
             board[y][x].className = "default";
             board[y][x].innerText = "";
-            updateCount(count+1);
+            if (minefield[y][x]<0) correct--; else incorrect--;
             break;
         }
     }
+    updateCount();
+    return correct==mines && incorrect==0;
 }

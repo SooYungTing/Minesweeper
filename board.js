@@ -1,15 +1,23 @@
-var count = 0;
+var game = true;
+var correct = 0;
+var incorrect = 0;
 var board = [];
 // Front-end function
-function drawBoard(container, width, height, mines) {
-    updateCount(mines);
+function drawBoard(container, width, height) {
+    updateCount();
     var _loop_1 = function (r) {
         var row = [];
         var _loop_2 = function (c) {
             var tile = document.createElement("div");
             tile.className = "default";
-            tile.onclick = function () { reveal(c, r); };
-            tile.oncontextmenu = function () { mark(c, r); return false; };
+            tile.onclick = function () { if (game)
+                if (reveal(c, r))
+                    game = false; };
+            tile.oncontextmenu = function () { if (game)
+                if (mark(c, r)) {
+                    alert("You win!");
+                    game = false;
+                } return false; };
             container.append(tile);
             row.push(tile);
         };
@@ -22,9 +30,8 @@ function drawBoard(container, width, height, mines) {
         _loop_1(r);
     }
 }
-function updateCount(cnt) {
-    count = cnt;
-    document.getElementById("mines-count").innerText = count.toString();
+function updateCount() {
+    document.getElementById("mines-count").innerText = (mines - correct - incorrect).toString();
 }
 // Pre: (x,y) is a set of valid coordinates;
 // Post: returns whether revealing the cell lead to loss of game;
@@ -55,19 +62,28 @@ function reveal(x, y) {
     return false;
 }
 // Pre: (x,y) is a set of valid coordinates
+// Post: returns whether revealing the cell lead to winning of game;
 function mark(x, y) {
     switch (board[y][x].className) {
         case "default": {
             board[y][x].className = "flagged";
             board[y][x].innerText = "🚩";
-            updateCount(count - 1);
+            if (minefield[y][x] < 0)
+                correct++;
+            else
+                incorrect++;
             break;
         }
         case "flagged": {
             board[y][x].className = "default";
             board[y][x].innerText = "";
-            updateCount(count + 1);
+            if (minefield[y][x] < 0)
+                correct--;
+            else
+                incorrect--;
             break;
         }
     }
+    updateCount();
+    return correct == mines && incorrect == 0;
 }

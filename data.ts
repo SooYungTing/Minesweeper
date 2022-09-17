@@ -1,9 +1,11 @@
+let mines = 0;
 let minefield: number[][] = [];
 
-function buryMine(width: number, height: number, mines: number): void {
+function buryMine(width: number, height: number): void {
     const size: number = width*height;
     for (let i=0; i<height; i++) minefield.push([]);
-    for (let i=0; i<height; i++) for (let j=0; j<width; j++) minefield[i].push(mines-->0? -1: 0);
+    let remaining: number = mines;
+    for (let i=0; i<height; i++) for (let j=0; j<width; j++) minefield[i].push(remaining-->0? -1: 0);
     // Shuffle
     function swap(i: number, j: number, x: number, y: number): void {
         const tmp: number = minefield[i][j];

@@ -1,11 +1,13 @@
+var mines = 0;
 var minefield = [];
-function buryMine(width, height, mines) {
+function buryMine(width, height) {
     var size = width * height;
     for (var i = 0; i < height; i++)
         minefield.push([]);
+    var remaining = mines;
     for (var i = 0; i < height; i++)
         for (var j = 0; j < width; j++)
-            minefield[i].push(mines-- > 0 ? -1 : 0);
+            minefield[i].push(remaining-- > 0 ? -1 : 0);
     // Shuffle
     function swap(i, j, x, y) {
         var tmp = minefield[i][j];
