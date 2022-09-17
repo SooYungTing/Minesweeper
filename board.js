@@ -42,14 +42,24 @@ function reveal(x, y) {
         case -1: {
             board[y][x].className = "explode";
             board[y][x].innerText = "💣";
+            for (var i = 0; i < rows; i++)
+                for (var j = 0; j < cols; j++) {
+                    if (minefield[i][j] < 0 && board[i][j].className == "default") {
+                        board[i][j].className = "reveal";
+                        board[i][j].innerText = "💣";
+                    }
+                    else if (minefield[i][j] >= 0 && board[i][j].className == "flagged") {
+                        board[i][j].className = "explode";
+                        board[i][j].innerText = "❌";
+                    }
+                }
             return true;
         }
         case 0: {
             board[y][x].className = "reveal";
-            var m = minefield.length, n = minefield[0].length;
             // Propagate to surrounding cells (which are guaranteed to be non-bomb as well)
-            for (var i = Math.max(0, y - 1); i <= Math.min(y + 1, m - 1); i++)
-                for (var j = Math.max(0, x - 1); j <= Math.min(x + 1, n - 1); j++)
+            for (var i = Math.max(0, y - 1); i <= Math.min(y + 1, rows - 1); i++)
+                for (var j = Math.max(0, x - 1); j <= Math.min(x + 1, cols - 1); j++)
                     reveal(j, i);
             break;
         }
