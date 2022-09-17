@@ -65,6 +65,18 @@ body {
     justify-content: center;
     align-items: center;
 }
+#board .lucky{
+    width: 48px;
+    height: 48px;
+    border: 1px solid whitesmoke;
+    background-color:khaki;
+
+    /* text */
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .tile-clicked {
     background-color: darkgreen;
