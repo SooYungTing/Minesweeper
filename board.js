@@ -102,7 +102,7 @@ function mark(x, y) {
                         break;
                     }
                     case "flagged": {
-                        board[i][j].className = "hidden";
+                        board[i][j].className = "lucky";
                         board[i][j].innerText = "🍀";
                         break;
                     }
