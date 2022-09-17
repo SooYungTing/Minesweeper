@@ -5,13 +5,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Minesweeper</title>
         <link rel="stylesheet" href="minesweeper.css">
-        <script src= "minesweeper1.js"></script>
+        <!-- <script src="minesweeper1.js"></script> -->
+        <script src="board.js"></script>
+        <script src="interact.js"></script>
     </head>
 
-    <body>
+    <body onload="initialise();">
         <h1>Mines: <span id="mines-count">0</span></h1>
         <div id="board"></div>
         <br>
-        <button id="flag-button">🚩</button>
     </body>
+
+    <script>
+        const rows = 8, cols = 8, mines = 8;
+        function initialise() {
+            buryMine(cols, rows, mines);
+            analyseField();
+            initBoard(cols, rows);
+            drawBoard(document.getElementById("board"), cols, rows);
+            console.log(minefield);
+        }
+    </script>
 </html>

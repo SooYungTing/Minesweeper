@@ -20,6 +20,11 @@ body {
     height: 48px;
     border: 1px solid whitesmoke;
 
+    /* text */
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #board .reveal {
@@ -27,6 +32,7 @@ body {
     height: 48px;
     border: 1px solid whitesmoke;
     background-color: lightskyblue;
+
     /* text */
     font-size: 30px;
     display: flex;
