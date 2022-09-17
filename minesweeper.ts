@@ -15,3 +15,16 @@ function buryMine(width: number, height: number, mines: number): boolean[][] {
     }
     return minefield;
 }
+
+/* Pre: 
+    (x,y) represents a set of valid coordinates within the range of the minefield;
+    minefield[y][x] == false;
+*/
+function countMine(minefield: boolean[][], x: number, y: number): number {
+    const m: number = minefield.length, n: number = minefield[0].length;
+    let res: number = 0;
+    for (let i=Math.max(0,y-1); i<Math.min(y+1,m-1); i++)
+        for (let j=Math.max(0,x-1); j<Math.min(x+1,n-1); j++) 
+            if (minefield[i][j]) res++;
+    return res;
+}
