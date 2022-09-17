@@ -6,8 +6,8 @@
         <title>Minesweeper</title>
         <link rel="stylesheet" href="minesweeper.css">
         <!-- <script src="minesweeper1.js"></script> -->
+        <script src="data.js"></script>
         <script src="board.js"></script>
-        <script src="interact.js"></script>
     </head>
 
     <body onload="initialise();">
@@ -21,7 +21,6 @@
         function initialise() {
             buryMine(cols, rows, mines);
             analyseField();
-            initBoard(cols, rows);
             drawBoard(document.getElementById("board"), cols, rows);
             console.log(minefield);
         }
