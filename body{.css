@@ -1,0 +1,8 @@
+body{
+    font-family: Arial, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    text-align:center;
+}
+
+#board
+    width: 400px;
