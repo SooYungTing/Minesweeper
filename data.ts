@@ -1,7 +1,8 @@
-let rows: number = 0, cols: number = 0, mines: number = 0;
+let rows: number = 8, cols: number = 8, mines: number = 8;
 let minefield: number[][] = [];
 
 function buryMine(): void {
+    minefield = [];
     const size: number = rows*cols;
     for (let i=0; i<rows; i++) minefield.push([]);
     let remaining: number = mines;

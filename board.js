@@ -3,7 +3,7 @@ var flagged = 0;
 var revealed = 0;
 var board = [];
 // Front-end function
-function drawBoard(container, width, height) {
+function drawBoard(container) {
     updateCount();
     var _loop_1 = function (r) {
         var row = [];
@@ -18,14 +18,25 @@ function drawBoard(container, width, height) {
             container.append(tile);
             row.push(tile);
         };
-        for (var c = 0; c < width; c++) {
+        for (var c = 0; c < cols; c++) {
             _loop_2(c);
         }
         board.push(row);
     };
-    for (var r = 0; r < height; r++) {
+    for (var r = 0; r < rows; r++) {
         _loop_1(r);
     }
+}
+function clearBoard() {
+    flagged = 0;
+    revealed = 0;
+    updateCount();
+    for (var i = 0; i < rows; i++)
+        for (var j = 0; j < cols; j++) {
+            board[i][j].className = "default";
+            board[i][j].innerText = "";
+        }
+    game = true;
 }
 function updateCount() {
     document.getElementById("mines-count").innerText = (mines - flagged).toString();

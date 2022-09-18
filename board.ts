@@ -4,11 +4,11 @@ let revealed: number = 0;
 let board: HTMLElement[][] = [];
 
 // Front-end function
-function drawBoard(container: HTMLElement, width: number, height: number): void {
+function drawBoard(container: HTMLElement): void {
     updateCount();
-    for (let r = 0; r < height; r++) {
+    for (let r = 0; r < rows; r++) {
         let row: HTMLElement[] = [];
-        for (let c = 0; c < width; c++) {
+        for (let c = 0; c < cols; c++) {
             let tile = document.createElement("div");
             tile.className = "default"
             tile.onclick = function() { if (game) if (reveal(c, r)) game=false; };
@@ -18,6 +18,17 @@ function drawBoard(container: HTMLElement, width: number, height: number): void 
         }
         board.push(row);
     }
+}
+
+function clearBoard() {
+    flagged = 0;
+    revealed = 0;
+    updateCount();
+    for (let i=0; i<rows; i++) for (let j=0; j<cols; j++) {
+        board[i][j].className = "default";
+        board[i][j].innerText = "";
+    }
+    game = true;
 }
 
 function updateCount() {

@@ -1,6 +1,7 @@
-var rows = 0, cols = 0, mines = 0;
+var rows = 8, cols = 8, mines = 8;
 var minefield = [];
 function buryMine() {
+    minefield = [];
     var size = rows * cols;
     for (var i = 0; i < rows; i++)
         minefield.push([]);

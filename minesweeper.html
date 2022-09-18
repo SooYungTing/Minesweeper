@@ -14,16 +14,44 @@
         <h1>Mines: <span id="mines-count">0</span></h1>
         <div id="board"></div>
         <br>
+        <br>
+        <div id="form">
+            <label style = "font-family: Arial, Helvetica, sans-serif; font-size: medium;">
+            <label for = "widthtag">Width:</label>
+            <input id = "widthtag" type = "integers" value = "8">
+            <br>
+            <br>
+            <label for = "heighttag">Height:</label>
+            <input id = "heighttag" type = "integers" value = "8">
+            <br>
+            <br>
+            <label for = "minetag">Mines:</label>
+            <input id = "minetag" type = "integers" value = "8">
+            <br>
+            <br>
+            <a onclick="submit()">
+                <input type="button" style="background-color:green;color:whitesmoke;width:80px;
+                height:25px;" value="Generate">
+            </a>
+            </style>
+        </div>
+        <br>
     </body>
 
     <script>
-        rows = 8;
-        cols = 8;
-        mines = 8;
         function initialise() {
-            buryMine(cols, rows, mines);
+            buryMine();
             analyseField();
-            drawBoard(document.getElementById("board"), cols, rows, mines);
+            drawBoard(document.getElementById("board"));
+            console.log(minefield);
+        }
+        function submit() {
+            rows = parseInt(document.getElementById("heighttag").value);
+            cols = parseInt(document.getElementById("widthtag").value);
+            mines = parseInt(document.getElementById("minetag").value);
+            buryMine();
+            analyseField();
+            clearBoard();
             console.log(minefield);
         }
     </script>
