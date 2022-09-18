@@ -81,6 +81,7 @@ function reveal(x, y) {
         default: {
             board[y][x].className = "reveal";
             board[y][x].innerText = minefield[y][x].toString();
+            board[y][x].classList.add("x".concat(minefield[y][x]));
             break;
         }
     }

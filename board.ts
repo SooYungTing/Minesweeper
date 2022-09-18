@@ -74,6 +74,7 @@ function reveal(x: number, y: number): boolean {
         default: {
             board[y][x].className = "reveal";
             board[y][x].innerText = minefield[y][x].toString();
+            board[y][x].classList.add(`x${minefield[y][x]}`);
             break;
         }
     }
