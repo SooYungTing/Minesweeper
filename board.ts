@@ -1,6 +1,6 @@
 let game: boolean = true;
-let correct: number = 0;
-let incorrect: number = 0;
+let flagged: number = 0;
+let revealed: number = 0;
 let board: HTMLElement[][] = [];
 
 // Front-end function
@@ -12,7 +12,7 @@ function drawBoard(container: HTMLElement, width: number, height: number): void 
             let tile = document.createElement("div");
             tile.className = "default"
             tile.onclick = function() { if (game) if (reveal(c, r)) game=false; };
-            tile.oncontextmenu = function() { if (game) if (mark(c, r)) game=false; return false; };
+            tile.oncontextmenu = function() { if (game) mark(c, r); return false; };
             container.append(tile);
             row.push(tile);
         }
@@ -21,27 +21,47 @@ function drawBoard(container: HTMLElement, width: number, height: number): void 
 }
 
 function updateCount() {
-    document.getElementById("mines-count")!.innerText = (mines-correct-incorrect).toString();
+    document.getElementById("mines-count")!.innerText = (mines-flagged).toString();
 }
 
 // Pre: (x,y) is a set of valid coordinates;
-// Post: returns whether revealing the cell lead to loss of game;
+// Post: returns whether revealing the cell lead to end of game;
 function reveal(x: number, y: number): boolean {
     if (board[y][x].className!="default") return false;
+
+    function lose(): boolean {
+        for (let i=0; i<rows; i++) for (let j=0; j<cols; j++) {
+            if (minefield[i][j]<0 && board[i][j].className=="default") {
+                board[i][j].className = "hidden";
+                board[i][j].innerText = "💣";
+            } else if (minefield[i][j]>=0 && board[i][j].className=="flagged") {
+                board[i][j].innerText = "❌";
+            }
+        }
+        return true;
+    }
+
+    function win(): boolean {
+        flagged = mines;
+        updateCount();
+        for (let i=0; i<rows; i++) for (let j=0; j<cols; j++) {
+            switch (board[i][j].className) {
+                case "default":
+                case "flagged": {
+                    board[i][j].className = "lucky";
+                    board[i][j].innerText = "🍀";
+                    break;
+                }
+            }
+        }
+        return true;
+    }
 
     switch (minefield[y][x]) {
         case -1: {
             board[y][x].className = "explode";
             board[y][x].innerText = "💣";
-            for (let i=0; i<rows; i++) for (let j=0; j<cols; j++) {
-                if (minefield[i][j]<0 && board[i][j].className=="default") {
-                    board[i][j].className = "hidden";
-                    board[i][j].innerText = "💣";
-                } else if (minefield[i][j]>=0 && board[i][j].className=="flagged") {
-                    board[i][j].innerText = "❌";
-                }
-            }
-            return true;
+            return lose();
         }
         case 0: {
             board[y][x].className = "reveal";
@@ -57,43 +77,26 @@ function reveal(x: number, y: number): boolean {
             break;
         }
     }
+    if (++revealed + mines == rows*cols) return win();
     return false;
 }
 
 // Pre: (x,y) is a set of valid coordinates
 // Post: returns whether revealing the cell lead to winning of game;
-function mark(x: number, y: number): boolean {
+function mark(x: number, y: number): void {
     switch (board[y][x].className) {
         case "default": {
             board[y][x].className = "flagged";
             board[y][x].innerText = "🚩";
-            if (minefield[y][x]<0) correct++; else incorrect++;
+            flagged++;
             break;
         }
         case "flagged": {
             board[y][x].className = "default";
             board[y][x].innerText = "";
-            if (minefield[y][x]<0) correct--; else incorrect--;
+            flagged--;
             break;
         }
     }
     updateCount();
-    if (correct==mines && incorrect==0) {
-        for (let i=0; i<rows; i++) for (let j=0; j<cols; j++) {
-            switch (board[i][j].className) {
-                case "default": {
-                    board[i][j].className = "reveal";
-                    board[i][j].innerText = minefield[i][j].toString();
-                    break;
-                }
-                case "flagged": {
-                    board[i][j].className = "lucky";
-                    board[i][j].innerText = "🍀";
-                    break;
-                }
-            }
-        }
-        return true;
-    }
-    return false;;
 }
