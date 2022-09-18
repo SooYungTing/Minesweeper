@@ -14,7 +14,7 @@ function buryMine(): void {
         minefield[x][y] = tmp;
     }
     for (let i=0; i<size-1; i++) {
-        const rnd: number = Math.floor(Math.random()*(size-i));
+        const rnd: number = i + Math.floor(Math.random()*(size-i));
         swap(Math.floor(i/cols), i%cols, Math.floor(rnd/cols), rnd%cols);
     }
 }

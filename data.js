@@ -16,7 +16,7 @@ function buryMine() {
         minefield[x][y] = tmp;
     }
     for (var i = 0; i < size - 1; i++) {
-        var rnd = Math.floor(Math.random() * (size - i));
+        var rnd = i + Math.floor(Math.random() * (size - i));
         swap(Math.floor(i / cols), i % cols, Math.floor(rnd / cols), rnd % cols);
     }
 }
